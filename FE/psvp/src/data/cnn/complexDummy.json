@@ -1,0 +1,189 @@
+[
+  {
+    "id": 1,
+    "type": "Conv2d",
+    "in_channels": 3,
+    "out_channels": 64,
+    "kernel_size": [
+      7,
+      7
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      3,
+      3
+    ],
+    "bias": false
+  },
+  {
+    "id": 2,
+    "type": "BatchNorm2d",
+    "num_features": 64,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "id": 3,
+    "type": "MaxPool2d",
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      1,
+      1
+    ]
+  },
+  {
+    "id": 4,
+    "type": "Conv2d",
+    "in_channels": 64,
+    "out_channels": 128,
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      1,
+      1
+    ],
+    "bias": false
+  },
+  {
+    "id": 5,
+    "type": "BatchNorm2d",
+    "num_features": 128,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "id": 6,
+    "type": "Conv2d",
+    "in_channels": 128,
+    "out_channels": 128,
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      1,
+      1
+    ],
+    "bias": false
+  },
+  {
+    "id": 7,
+    "type": "BatchNorm2d",
+    "num_features": 128,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "id": 8,
+    "type": "MaxPool2d",
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      1,
+      1
+    ]
+  },
+  {
+    "id": 9,
+    "type": "Conv2d",
+    "in_channels": 128,
+    "out_channels": 256,
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      1,
+      1
+    ],
+    "bias": false
+  },
+  {
+    "id": 10,
+    "type": "BatchNorm2d",
+    "num_features": 256,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "id": 11,
+    "type": "MaxPool2d",
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      1,
+      1
+    ]
+  },
+  {
+    "id": 12,
+    "type": "Flatten"
+  },
+  {
+    "id": 13,
+    "type": "Linear",
+    "in_features": 256,
+    "out_features": 512,
+    "bias": true
+  },
+  {
+    "id": 14,
+    "type": "ReLU"
+  },
+  {
+    "id": 15,
+    "type": "Linear",
+    "in_features": 512,
+    "out_features": 10,
+    "bias": true
+  },
+  {
+    "id": 16,
+    "type": "Softmax",
+    "dim": 1
+  }
+]

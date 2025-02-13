@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "type": "Conv2d",
+    "in_channels": 3,
+    "out_channels": 64,
+    "kernel_size": [
+      7,
+      7
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      3,
+      3
+    ],
+    "bias": false
+  },
+  {
+    "id": 2,
+    "type": "BatchNorm2d",
+    "num_features": 64,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "id": 7,
+    "type": "Conv2d",
+    "in_channels": 64,
+    "out_channels": 64,
+    "kernel_size": [
+      1,
+      1
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "bias": false
+  },
+  {
+    "id": 8,
+    "type": "BatchNorm2d",
+    "num_features": 64,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "id": 9,
+    "type": "Conv2d",
+    "in_channels": 64,
+    "out_channels": 64,
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      1,
+      1
+    ],
+    "padding": [
+      1,
+      1
+    ],
+    "bias": false
+  },
+  {
+    "id": 10,
+    "type": "BatchNorm2d",
+    "num_features": 64,
+    "eps": 1e-05,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  }
+]
