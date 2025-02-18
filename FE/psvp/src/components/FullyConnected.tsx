@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { Plane } from '@react-three/drei';
 import SphereObject from '../Objects/SphereObject.tsx';
 
 interface FullyConnectedProps {
@@ -16,12 +17,6 @@ const FullyConnected = ({
 }: FullyConnectedProps) => {
   const gap = 1.5;
   const maxVisibleNeurons = 20;
-
-  useEffect(() => {
-    console.log(
-      `🧠 FullyConnected Layer Debug → inputSize: ${inputSize}, outputSize: ${outputSize}, position: ${position}`,
-    );
-  }, [inputSize, outputSize, position]);
 
   const getVisibleIndices = (totalNeurons: number) => {
     if (totalNeurons <= maxVisibleNeurons) return [...Array(totalNeurons).keys()];
@@ -61,34 +56,37 @@ const FullyConnected = ({
     ));
   }, [outputSize, position, color]);
 
+  // 🟦 반투명 직사각형 (Sphere 범위에 맞춤)
+  const planeWidth = 8; // 너비를 기존보다 약간 늘림
+  const planeHeight =
+    Math.max(
+      inputSize <= maxVisibleNeurons ? inputSize : maxVisibleNeurons,
+      outputSize <= maxVisibleNeurons ? outputSize : maxVisibleNeurons,
+    ) *
+      gap +
+    1;
+
+  const transparentPlane = (
+    <Plane
+      args={[planeWidth, planeHeight]} // width, height
+      position={[position[0] + 1, position[1], position[2] - 2.1]}
+      rotation={[0, 0, 0]}
+    >
+      <meshStandardMaterial
+        attach="material"
+        color="lightgray"
+        transparent
+        opacity={0.2} // 반투명도
+        depthWrite={false}
+      />
+    </Plane>
+  );
+
   return (
     <group position={position}>
+      {transparentPlane}
       {inputNeurons}
-      {inputSize > maxVisibleNeurons && (
-        <SphereObject
-          key="input-ellipsis"
-          position={[
-            position[0] - 2,
-            position[1] - ((maxVisibleNeurons - 1) / 2 + 1) * gap,
-            position[2] - 2,
-          ]}
-          radius={0.3}
-          color="gray"
-        />
-      )}
       {outputNeurons}
-      {outputSize > maxVisibleNeurons && (
-        <SphereObject
-          key="output-ellipsis"
-          position={[
-            position[0] + 4,
-            position[1] - ((maxVisibleNeurons - 1) / 2 + 1) * gap,
-            position[2] - 2,
-          ]}
-          radius={0.3}
-          color="gray"
-        />
-      )}
     </group>
   );
 };
