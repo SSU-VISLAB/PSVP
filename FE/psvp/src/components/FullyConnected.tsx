@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Plane } from '@react-three/drei';
 import SphereObject from '../Objects/SphereObject.tsx';
 

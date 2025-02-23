@@ -6,21 +6,15 @@ import cnnConfig from './data/cnn/complexDummy.json';
 const mapLayerTypeToColor = (type: string) => {
   switch (type) {
     case 'Conv2d':
-      return 'blue';
-    case 'BatchNorm2d':
-      return 'purple';
+      return '#0033FF';
     case 'MaxPool2d':
-      return 'green';
+      return '#00CC66';
     case 'Flatten':
-      return 'white';
+      return '#AA00FF';
     case 'Linear':
-      return 'red';
-    case 'ReLU':
-      return 'yellow';
-    case 'Softmax':
-      return 'orange';
+      return '#FF0000';
     default:
-      return 'gray';
+      return '#888888';
   }
 };
 

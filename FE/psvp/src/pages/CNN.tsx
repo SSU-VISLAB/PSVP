@@ -7,14 +7,15 @@ import FullyConnected from '../components/FullyConnected.tsx';
 import { CNNProps } from '../types/cnn.ts';
 import { useMemo } from 'react';
 
-const CNN = ({ layers, gapBetweenLayers = 4 }: CNNProps) => {
+const CNN = ({ layers, gapBetweenLayers = 6 }: CNNProps) => {
+  // ✅ 기본 간격 증가
   const processedLayers = useMemo(() => {
     let lastChannels = 3;
     let currentX = 0;
 
     return layers.map((layer, index) => {
       let Component = null;
-      const defaultWidth = 5;
+      const defaultWidth = 5; // ✅ 기본 너비 설정
 
       if (layer.type === 'Conv2d' && typeof layer.out_channels !== 'undefined') {
         lastChannels = layer.out_channels;
@@ -26,12 +27,10 @@ const CNN = ({ layers, gapBetweenLayers = 4 }: CNNProps) => {
             <Layer {...layer} nChannels={lastChannels} layoutOffset={[currentX, 0, 0]} />
           </group>
         );
-        currentX += (layer.layerSize?.[0] || defaultWidth) + gapBetweenLayers;
+        currentX += (layer.layerSize?.[0] || defaultWidth) + gapBetweenLayers * 1.3; // ✅ 간격을 더 증가
       } else if (layer.type === 'Flatten') {
-        Component = (
-          <Flatten key={index} inputSize={lastChannels * 4} position={[currentX, 0, 0]} />
-        );
-        currentX += 6;
+        Component = <Flatten key={index} inputSize={1} position={[currentX, 0, 0]} />;
+        currentX += 8; // ✅ Flatten 이후 간격 증가
       } else if (layer.type === 'Linear') {
         Component = (
           <FullyConnected
@@ -41,7 +40,7 @@ const CNN = ({ layers, gapBetweenLayers = 4 }: CNNProps) => {
             position={[currentX, 0, 0]}
           />
         );
-        currentX += 8;
+        currentX += 12; // ✅ Fully Connected 간격 조정
       }
 
       return Component;
@@ -50,7 +49,7 @@ const CNN = ({ layers, gapBetweenLayers = 4 }: CNNProps) => {
 
   return (
     <Canvas style={{ width: '100%', height: '100vh' }} shadows={false}>
-      <OrthographicCamera makeDefault zoom={20} position={[30, 30, 100]} near={0.1} far={1000} />
+      <OrthographicCamera makeDefault zoom={3} position={[50, 40, 250]} near={0.1} far={1000} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} />
 
@@ -66,5 +65,4 @@ const CNN = ({ layers, gapBetweenLayers = 4 }: CNNProps) => {
     </Canvas>
   );
 };
-
 export default CNN;

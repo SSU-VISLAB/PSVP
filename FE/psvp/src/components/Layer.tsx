@@ -8,7 +8,7 @@ interface LayerProps {
   layoutOffset?: [number, number, number];
 }
 
-const Layer = ({ layerSize, nChannels, color = 'white', layoutOffset = [0, 0, 0] }: LayerProps) => {
+const Layer = ({ layerSize, nChannels, color, layoutOffset = [0, 0, 0] }: LayerProps) => {
   const maxVisibleFilters = 20;
   const visibleIndices = useMemo(() => {
     if (nChannels <= maxVisibleFilters) return [...Array(nChannels).keys()];
