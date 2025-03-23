@@ -2,7 +2,7 @@ import './App.css';
 import CNN from './pages/CNN.tsx';
 import cnnConfig from './data/cnn/complexDummy.json';
 
-// JSON 데이터에서 필요한 정보를 추출하여 시각화를 위한 데이터로 변환
+// 레이어 타입별 색상 매핑 함수
 const mapLayerTypeToColor = (type: string) => {
   switch (type) {
     case 'Conv2d':
@@ -18,36 +18,76 @@ const mapLayerTypeToColor = (type: string) => {
   }
 };
 
-const cnnLayers = cnnConfig.map((layer, index, array) => {
-  let inFeatures = layer.in_features ?? null;
-  const outFeatures = layer.out_features ?? null;
+// 레이어 타입 정의 (타입스크립트 인터페이스)
+interface LayerInfo {
+  id: number;
+  type: string;
+  in_channels?: number;
+  out_channels?: number;
+  kernel_size?: [number, number]; // 반드시 두 개의 숫자로 구성된 배열
+  stride?: [number, number];
+  padding?: [number, number];
+  bias?: boolean;
+  num_features?: number;
+  eps?: number;
+  momentum?: number;
+  affine?: boolean;
+  track_running_stats?: boolean;
+  inplace?: boolean;
+  in_features?: number; // Linear 전용
+  out_features?: number; // Linear 전용
+  layerSize: [number, number, number]; // 반드시 `[number, number, number]` 형식
+  nChannels: number;
+  color: string;
+  gap: number;
+  label: string;
+}
+
+// CNN 레이어 데이터 가공
+const cnnLayers: LayerInfo[] = cnnConfig.map((layer, index, array) => {
+  let inFeatures: number | undefined = layer.in_features;
+  const outFeatures = layer.out_features;
 
   // 🚀 Flatten 이후 첫 Linear 레이어의 `in_features` 자동 설정
-  if (layer.type === 'Linear' && inFeatures === null) {
+  if (layer.type === 'Linear' && inFeatures === undefined) {
     const lastConvLayer = array
       .slice(0, index) // Flatten 이전까지의 레이어를 찾음
       .reverse()
       .find((l) => l.type === 'Conv2d');
 
-    if (lastConvLayer) {
-      inFeatures = lastConvLayer.out_channels ?? 256; // 기본값 256
+    if (lastConvLayer && lastConvLayer.out_channels) {
+      inFeatures = lastConvLayer.out_channels; // Conv2d의 out_channels를 in_features로 사용
+    } else {
+      inFeatures = 256; // 기본값 256
     }
   }
 
   return {
-    ...layer, // 기존 데이터 유지
+    id: layer.id,
     type: layer.type,
+    in_channels: layer.in_channels,
+    out_channels: layer.out_channels,
+    kernel_size: layer.kernel_size as [number, number] | undefined,
+    stride: layer.stride as [number, number] | undefined,
+    padding: layer.padding as [number, number] | undefined,
+    bias: layer.bias,
+    num_features: layer.num_features,
+    eps: layer.eps,
+    momentum: layer.momentum,
+    affine: layer.affine,
+    track_running_stats: layer.track_running_stats,
+    inplace: layer.inplace,
+    in_features: inFeatures,
+    out_features: outFeatures,
     layerSize: [
       layer.kernel_size ? layer.kernel_size[0] : 1,
       layer.kernel_size ? layer.kernel_size[1] : 1,
       0.2,
-    ],
+    ] as [number, number, number], // `[number, number, number]`로 강제 변환
     nChannels: layer.out_channels || layer.num_features || 1,
-    in_features: inFeatures ?? 256, // 기본값 설정
-    out_features: outFeatures ?? 10, // 기본값 설정
     color: mapLayerTypeToColor(layer.type),
-    gap: 0.2,
-    label: layer.type + (layer.id ? ` ${layer.id}` : ''),
+    gap: 0.5,
+    label: `${layer.type} ${layer.id ?? ''}`,
   };
 });
 

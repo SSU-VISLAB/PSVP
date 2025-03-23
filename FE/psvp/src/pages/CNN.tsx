@@ -49,7 +49,7 @@ const CNN = ({ layers, gapBetweenLayers = 6 }: CNNProps) => {
 
   return (
     <Canvas style={{ width: '100%', height: '100vh' }} shadows={false}>
-      <OrthographicCamera makeDefault zoom={3} position={[50, 40, 250]} near={0.1} far={1000} />
+      <OrthographicCamera makeDefault zoom={4} position={[50, 40, 250]} near={0.1} far={1000} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} />
 

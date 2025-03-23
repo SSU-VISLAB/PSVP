@@ -1,0 +1,73 @@
+[
+  {
+    "id": 1,
+    "type": "Conv2d",
+    "in_channels": 3,
+    "out_channels": 64,
+    "kernel_size": [
+      7,
+      7
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      3,
+      3
+    ],
+    "bias": false
+  },
+  {
+    "id": 2,
+    "type": "BatchNorm2d",
+    "num_features": 64,
+    "eps": 0.00001,
+    "momentum": 0.1,
+    "affine": true,
+    "track_running_stats": true
+  },
+  {
+    "id": 3,
+    "type": "ReLU"
+  },
+  {
+    "id": 4,
+    "type": "MaxPool2d",
+    "kernel_size": [
+      3,
+      3
+    ],
+    "stride": [
+      2,
+      2
+    ],
+    "padding": [
+      1,
+      1
+    ]
+  },
+  {
+    "id": 5,
+    "type": "Linear",
+    "in_features": 1024,
+    "out_features": 128,
+    "bias": true
+  },
+  {
+    "id": 6,
+    "type": "ReLU"
+  },
+  {
+    "id": 7,
+    "type": "Linear",
+    "in_features": 128,
+    "out_features": 10,
+    "bias": true
+  },
+  {
+    "id": 8,
+    "type": "Softmax",
+    "axis": 1
+  }
+]
